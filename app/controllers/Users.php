@@ -118,6 +118,7 @@ class Users extends Controller {
     public function login(){
       // Check if logged in
       if($this->isLoggedIn()){
+       
         redirect('index');
       }
        // Check for POST
@@ -167,6 +168,7 @@ class Users extends Controller {
 
           // User is exists
           $this->createUserSession($loggedInUser);
+          flash('login_success', 'You are logged in!');
 
         }else{
           $data['password_err']='Password is incorrect';

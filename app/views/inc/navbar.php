@@ -10,10 +10,16 @@
           <li class="nav-item">
             <a class="nav-link" href="<?php echo URLROOT; ?>">Home</a>
           </li>
+          <li class="nav-item">
+          <a class="nav-link" href="<?php echo URLROOT; ?>/pages/about">About</a>
+        </li>
         </ul>
         
         <ul class="navbar-nav ml-auto">
           <?php if(isset($_SESSION['user_id'])) : ?>
+            <li class="nav-item">
+              <a class="nav-link" href="#"> Welcome <i>(<?php echo $_SESSION['user_name'] ?>)</i></a>
+          </li>
           <li class="nav-item">
               <a class="nav-link" href="<?php echo URLROOT; ?>/users/logout">Logout</a>
             </li>
