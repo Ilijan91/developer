@@ -126,7 +126,31 @@ class Users extends Controller {
 
          // VALIDATE FORM
 
+         // Validate email
 
+         if(empty($data['email'])){
+          $data['email_err']="Please enter email";
+        }
+
+        // Validate password
+
+        if(empty($data['password'])){
+         $data['password_err']="Please enter password!";
+       }
+
+       // Check if user exists in database
+       if($this->userModel->findUserByEmail($data['email'])){
+        // user found
+       }else {
+         $data['email_err']='No user!';
+       }
+
+
+
+       
+
+
+      
 
       } else {
         // Init data
