@@ -28,7 +28,7 @@
           <div class="form-group">
             <label for="user_type">Select User Type: <sup>*</sup></label>
             <select name ="user_type" id="user_type" class="form-control <?php echo (!empty($data['user_type_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['user_type']; ?>">
-               
+            
                 <?php foreach($this->userModel->getUserType() as $user) :?>
                   <option value='<?php echo $user->id;?>'><?php echo $user->type;?>/<?php echo $user->sub_type;?></option>
                <?php endforeach ;?>

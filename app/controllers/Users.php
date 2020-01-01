@@ -22,7 +22,7 @@ class Users extends Controller {
           'password' => trim($_POST['password']),
           'confirm_password' => trim($_POST['confirm_password']),
           
-          'user_type_id_err' => '',
+          
           'name_err' => '',
           'email_err' => '',
           'password_err' => '',
@@ -59,13 +59,10 @@ class Users extends Controller {
           }
         }
 
-        //Validate user type
-        if(empty($data['user_type'])){
-          $data['user_type_id_err']='Please select your user type';
-        }
+        
 
         //Make sure data errors are empty
-        if(empty($data['name_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_password_err']) && empty($data['user_type_id_err'])){
+        if(empty($data['name_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])){
           //Form is validated
 
           // Hash Password
@@ -84,11 +81,6 @@ class Users extends Controller {
           // Load form with errors
           $this->view('users/register',$data);
         }
-
-
-        
-
-        
 
       } else {
         // Init data
