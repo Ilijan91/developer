@@ -8,6 +8,11 @@ class Users extends Controller {
 
 
     public function register(){
+
+      // Check if logged in
+      if($this->isLoggedIn()){
+        redirect('index');
+      }
           // Check for POST
       if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // Process form
@@ -71,6 +76,7 @@ class Users extends Controller {
 
           // Hash Password
           $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+          
           // Register User
           if($this->userModel->register($data)){
             // Redirect to login
@@ -110,6 +116,10 @@ class Users extends Controller {
 
 
     public function login(){
+      // Check if logged in
+      if($this->isLoggedIn()){
+        redirect('index');
+      }
        // Check for POST
        if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // Process form
@@ -143,12 +153,12 @@ class Users extends Controller {
        if($this->userModel->findUserByEmail($data['email'])){
         // user found
        }else {
-         $data['email_err']='No user!';
+         $data['email_err']='No user with this email!';
        }
 
       //Make sure no errors in form
       if(empty($data['email_err']) && empty($data['password_err'])){
-        //Form is valid
+        //Form is valid, set user
 
         $loggedInUser= $this->userModel->login($data['email'], $data['password']);
 
@@ -203,6 +213,15 @@ class Users extends Controller {
       unset($_SESSION['user_name']);
       session_destroy();
       redirect('users/login');
+    }
+
+    // check if user is logged in
+    function isLoggedIn(){
+      if(isset($_SESSION['user_id'])){
+          return true;
+      }else {
+          return false;
+      }
     }
 
 }
