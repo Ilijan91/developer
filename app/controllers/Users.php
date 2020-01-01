@@ -20,13 +20,13 @@ class Users extends Controller {
           'email' => trim($_POST['email']),
           'password' => trim($_POST['password']),
           'confirm_password' => trim($_POST['confirm_password']),
-          'user_type' => trim($_POST['user_type']),
+          'user_type_id' => trim($_POST['user_type']),
           
           'name_err' => '',
           'email_err' => '',
           'password_err' => '',
           'confirm_password_err' => '',
-          'user_type_err' => ''
+          'user_type_id_err' => ''
         ];
         
         //FORM VALIDATION
@@ -39,13 +39,13 @@ class Users extends Controller {
           'email' => '',
           'password' => '',
           'confirm_password' => '',
-          'user_type' => '',
+          'user_type_id' => '',
 
           'name_err' => '',
           'email_err' => '',
           'password_err' => '',
           'confirm_password_err' => '',
-          'user_type_err'=>''        
+          'user_type_id_err'=>''        
         ];
 
         // Load view just to see form before enter any data

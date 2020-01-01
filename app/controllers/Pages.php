@@ -7,12 +7,12 @@
     
     public function index(){
 
-      $users = $this->userModel->getUsers();
+      
       
 
       $data = [
-        'title' => 'Welcome',
-        'users' => $users
+        'title' => 'Welcome'
+        
         
       ];
      

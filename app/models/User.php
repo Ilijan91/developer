@@ -8,13 +8,14 @@ class User {
 
 
 
-    public function getUsers(){
+    public function getUserType(){
         
-        $this->db->query('SELECT * FROM users');
+        $this->db->query('SELECT * FROM user_type');
         
-        $results= $this->db->resultSet();
+        $results= $this->db->resultset();
     
         return $results;
+        
         }
 
 
