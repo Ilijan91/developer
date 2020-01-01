@@ -16,7 +16,7 @@ class User {
     
         return $results;
         
-        }
+    }
 
     public function register($data){
 
@@ -36,6 +36,22 @@ class User {
         }
     }
 
+    // Find user by email
+    public function findUserByEmail($email){
+
+        $this->db->query('SELECT * FROM users WHERE email = :email');
+        // Bind value
+        $this->db->bind(':email',$email);
+
+        $row = $this->db->single();
+
+        // Check row
+        if($this->db->rowCount() > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 

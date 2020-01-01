@@ -35,7 +35,11 @@ class Users extends Controller {
          //Validate email
          if(empty($data['email'])){
           $data['email_err']='Please enter your email';
-        
+        }else{
+          //check email
+          if($this->userModel->findUserByEmail($data['email'])){
+            $data['email_err']='Email is already taken!';
+          }
         }
 
         //Validate name
@@ -120,7 +124,9 @@ class Users extends Controller {
            'email_err' => ''
          ];
 
-         
+         // VALIDATE FORM
+
+
 
       } else {
         // Init data
