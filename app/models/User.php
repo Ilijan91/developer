@@ -6,7 +6,7 @@ class User {
     }
 
 
-
+    // return value of user type 
 
     public function getUserType(){
         
@@ -17,6 +17,8 @@ class User {
         return $results;
         
     }
+
+    // User registration
 
     public function register($data){
 
