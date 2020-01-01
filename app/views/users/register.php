@@ -33,7 +33,6 @@
                   <option value='<?php echo $user->id;?>'><?php echo $user->type;?>/<?php echo $user->sub_type;?></option>
                <?php endforeach ;?>
             </select>
-            <span class="invalid-feedback"><?php echo $data['user_type_err']; ?></span>
           </div>
           <div class="row">
             <div class="col">

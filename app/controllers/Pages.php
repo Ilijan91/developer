@@ -18,10 +18,16 @@
       //Set Data
       $data = [
         'version' => '1.0.0',
-        'description' =>'This is application that can search for users by user type..'
+        'description' =>'This is application that can search for users by user type...'
       ];
 
       // Load about view
       $this->view('pages/about', $data);
+    }
+
+    public function results(){
+      
+      $data=[];
+      $this->view('pages/results', $data);
     }
   }
