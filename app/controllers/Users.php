@@ -95,13 +95,12 @@ class Users extends Controller {
           'email' => '',
           'password' => '',
           'confirm_password' => '',
-          'user_type_id' => '',
+          'user_type' => '',
 
           'name_err' => '',
           'email_err' => '',
           'password_err' => '',
-          'confirm_password_err' => '',
-          'user_type_id_err'=>''        
+          'confirm_password_err' => ''    
         ];
 
         // Load view just to see form before enter any data
@@ -155,10 +154,9 @@ class Users extends Controller {
 
         if($loggedInUser){
           // create session
-          print_r($loggedInUser);
 
-          
-
+          // User is exists
+          $this->createUserSession($loggedInUser);
 
         }else{
           $data['password_err']='Password is incorrect';
@@ -190,7 +188,13 @@ class Users extends Controller {
     
     }
 
-
+// Create Session With User Info
+    public function createUserSession($user){
+      $_SESSION['user_id'] = $user->id;
+      $_SESSION['user_email'] = $user->email; 
+      $_SESSION['user_name'] = $user->name;
+      redirect('index');
+    }
 
 
 
