@@ -11,26 +11,84 @@ class Users extends Controller {
           // Check for POST
       if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // Process form
-
+        
         // Sanitize POST data
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         // Init data
         $data =[
+          'user_type' => trim($_POST['user_type']),
           'name' => trim($_POST['name']),
           'email' => trim($_POST['email']),
           'password' => trim($_POST['password']),
           'confirm_password' => trim($_POST['confirm_password']),
-          'user_type_id' => trim($_POST['user_type']),
           
+          'user_type_id_err' => '',
           'name_err' => '',
           'email_err' => '',
           'password_err' => '',
           'confirm_password_err' => '',
-          'user_type_id_err' => ''
+          
         ];
         
         //FORM VALIDATION
 
+         //Validate email
+         if(empty($data['email'])){
+          $data['email_err']='Please enter your email';
+        
+        }
+
+        //Validate name
+        if(empty($data['name'])){
+          $data['name_err']='Please enter your name';
+        }
+
+        //Validate password
+        if(empty($data['password'])){
+          $data['password_err']='Please enter password';
+        }elseif(strlen($data['password']) < 6){
+          $data['password_err']='Please enter at least 6 characters!';
+        }
+
+        //Validate confirm_password
+        if(empty($data['confirm_password'])){
+          $data['confirm_password_err']='Please confirm password';
+        }else{
+          if($data['password'] != $data['confirm_password']){
+            $data['confirm_password_err']='Passwords do not match!';
+          }
+        }
+
+        //Validate user type
+        if(empty($data['user_type'])){
+          $data['user_type_id_err']='Please select your user type';
+        }
+
+        //Make sure data errors are empty
+        if(empty($data['name_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_password_err']) && empty($data['user_type_id_err'])){
+          //Form is validated
+
+          // Hash Password
+          $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+          // Register User
+          if($this->userModel->register($data)){
+            echo "Success!";
+
+          } else {
+            die('Something went wrong');
+          }
+
+
+        }else {
+
+          // Load form with errors
+          $this->view('users/register',$data);
+        }
+
+
+        
+
+        
 
       } else {
         // Init data
