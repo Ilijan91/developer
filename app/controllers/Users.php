@@ -145,12 +145,31 @@ class Users extends Controller {
          $data['email_err']='No user!';
        }
 
+      //Make sure no errors in form
+      if(empty($data['email_err']) && empty($data['password_err'])){
+        //Form is valid
+
+        $loggedInUser= $this->userModel->login($data['email'], $data['password']);
+
+        if($loggedInUser){
+          // create session
+          print_r($loggedInUser);
+
+          
 
 
-       
+        }else{
+          $data['password_err']='Password is incorrect';
+
+          $this->view('users/login',$data);
+        }
 
 
-      
+      }else{
+        // Load form with errors
+        $this->view('users/login',$data);
+      }
+
 
       } else {
         // Init data
