@@ -30,8 +30,12 @@
 
       $results = $this->userModel->getResults();
       //print_r($results);
+      
+      $count= $this->userModel->countResult(($_GET['search_text']));
+      
       $data=[
-        "results"=> $results
+        "results"=> $results,
+        "count"=>$count
       ];
       $this->view('pages/results', $data);
     }

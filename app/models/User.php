@@ -79,13 +79,13 @@ class User {
     // Get results from search form
     public function getResults(){
 
-        if(isset($_POST['submit'])){
+        if(isset($_GET['submit'])){
           
             // Sanitize POST data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            //$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            $search_text=trim($_POST['search_text']);
-            $select=trim($_POST['search_select']);
+            $search_text=trim($_GET['search_text']);
+            $select=trim($_GET['search_select']);
 
             if($select == "" || ($select !="type" && $select !="sub_type")){
                 $select= "type";
@@ -109,6 +109,29 @@ class User {
             } else {
                 flash("search_fail","Your search does not match any data", "alert alert-danger");
             }
+            
+        }
+
+    }
+
+
+    public function countResult($sub_type){
+
+        if(isset($_GET['submit'])){
+          
+            // Sanitize POST data
+            //$_GET = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $this->db->query("SELECT users.user_type, count(*) AS 'total'
+                                    FROM users
+                                    JOIN user_type
+                                    ON users.user_type=user_type.id
+                                    WHERE user_type.sub_type = '{$sub_type}'
+                                    ");
+
+            $data=$this->db->execute();
+            $data=$this->db->single();
+            return $data;
             
         }
 
