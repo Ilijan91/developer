@@ -6,9 +6,10 @@
     }
     
     public function index(){
-      
+      $users = $this->userModel->getUserType();
       $data = [
-        'title' => 'Welcome'
+        'title' => 'Welcome',
+        'users'=> $users
       ];
      
       $this->view('pages/index', $data);
@@ -26,8 +27,12 @@
     }
 
     public function results(){
-      
-      $data=[];
+
+      $results = $this->userModel->getResults();
+      //print_r($results);
+      $data=[
+        "results"=> $results
+      ];
       $this->view('pages/results', $data);
     }
   }

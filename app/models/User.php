@@ -76,6 +76,44 @@ class User {
     }
 
 
+    // Get results from search form
+    public function getResults(){
+
+        if(isset($_POST['submit'])){
+          
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $search_text=trim($_POST['search_text']);
+            $select=trim($_POST['search_select']);
+
+            if($select == "" || ($select !="type" && $select !="sub_type")){
+                $select= "type";
+            }
+                
+            if(empty($search_text)){
+                flash("search_none","Please insert search text", "alert alert-danger");
+                redirect("pages/index");
+            }
+
+            $data=$this->db->query("SELECT * FROM user_type WHERE type LIKE '%$search_text%' OR sub_type  LIKE '%$search_text%'");
+            
+            $data=$this->db->execute();
+            
+            // Check row
+            if($this->db->rowCount() > 0){
+                if($data= $this->db->resultset()){
+                    return $data;
+                }
+                
+            } else {
+                flash("search_fail","Your search does not match any data", "alert alert-danger");
+            }
+            
+        }
+
+    }
+
 
 
 
