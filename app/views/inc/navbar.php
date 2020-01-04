@@ -11,10 +11,10 @@
             <a class="nav-link" href="<?php echo URLROOT; ?>">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/pages/about">About</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/posts/index">Posts</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo URLROOT; ?>/posts/index">Posts</a>
+            <a class="nav-link" href="<?php echo URLROOT; ?>/pages/about">About</a>
           </li>
         </ul>
         
