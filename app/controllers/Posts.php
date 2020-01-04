@@ -56,7 +56,7 @@ public function add(){
         //Execute
         if($this->postModel->addPost($data)){
           // Redirect to login
-          flash('post_added', 'Post Added');
+          flash('post_message', 'Post Added');
           redirect('posts');
         } else {
           die('Something went wrong');
@@ -90,5 +90,65 @@ public function add(){
         $this->view('posts/show', $data);
     }
 
+
+    // Edit Post
+    public function edit($id){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+          // Sanitize POST
+          $_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+          
+          $data = [
+            'id' => $id,
+            'title' => trim($_POST['title']),
+            'body' => trim($_POST['body']),
+            'user_id' => $_SESSION['user_id'],   
+            'title_err' => '',
+            'body_err' => ''
+          ];
+  
+           // Validate title
+           if(empty($data['title'])){
+            $data['title_err'] = 'Please enter name';
+            }
+            // Validate body
+            if(empty($data['body'])){
+              $data['body_err'] = 'Please enter the post body';
+            }
+          
+  
+          // Make sure there are no errors
+          if(empty($data['title_err']) && empty($data['body_err'])){
+            // Validation passed
+            //call update function from Post model
+            if($this->postModel->updatePost($data)){
+            // Redirect to login
+            flash('post_message', 'Post Updated');
+            redirect('posts');
+            } else {
+              die('Something went wrong');
+            }
+          } else {
+            // Load view with errors
+            $this->view('posts/edit', $data);
+          }
+  
+        } else {
+          // Get post from model
+          $post = $this->postModel->getPostById($id);
+  
+          // Check for owner
+          if($post->user_id != $_SESSION['user_id']){
+            redirect('posts');
+          }
+  
+          $data = [
+            'id' => $id,
+            'title' => $post->title,
+            'body' => $post->body,
+          ];
+  
+          $this->view('posts/edit', $data);
+        }
+      }
 
 }
