@@ -20,12 +20,15 @@ class Users extends Controller {
         // Sanitize POST data
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         // Init data
+
+        
         $data =[
-          'user_type' => trim($_POST['user_type']),
+          'user_type_id' => trim($_POST['user_type_id']),
           'name' => trim($_POST['name']),
           'email' => trim($_POST['email']),
           'password' => trim($_POST['password']),
           'confirm_password' => trim($_POST['confirm_password']),
+          'parent_id' => trim($_POST['parent_id']),
           
           
           'name_err' => '',
@@ -101,7 +104,9 @@ class Users extends Controller {
           'email' => '',
           'password' => '',
           'confirm_password' => '',
-          'user_type' => '',
+          'user_type_id' => '',
+          'parent_id' => '',
+          
 
           'name_err' => '',
           'email_err' => '',

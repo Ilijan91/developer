@@ -18,17 +18,28 @@ class User {
         
     }
 
+    public function getUserParent(){
+        
+        $this->db->query('SELECT * FROM parents');
+        
+        $results= $this->db->resultset();
+    
+        return $results;
+        
+    }
+
     // User registration
 
     public function register($data){
 
-        $this->db->query('INSERT INTO users ( name, email, password, user_type_id) VALUES (:name,:email,:password,:user_type_id)');
+        $this->db->query('INSERT INTO users ( name, email, password, user_type_id,parent_id) VALUES (:name,:email,:password,:user_type_id,:parent_id)');
         //Bind values
         
         $this->db->bind(':name',$data['name']);
         $this->db->bind(':email',$data['email']);
         $this->db->bind(':password',$data['password']);
-        $this->db->bind(':user_type_id',$data['user_type']);
+        $this->db->bind(':user_type_id',$data['user_type_id']);
+        $this->db->bind(':parent_id',$data['parent_id']);
 
         //excecute
         if($this->db->execute()){
@@ -94,9 +105,9 @@ class User {
             //$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $search_text=trim($_GET['search_text']);
-            $select=trim($_GET['search_select']);
+            $search_select=trim($_GET['search_select']);
 
-            if(empty($select)){
+            if(empty($search_select)){
                 flash("search_select","Please select type", "alert alert-danger");
                 redirect("pages/index");
             }
@@ -105,39 +116,64 @@ class User {
                 flash("search_none","Please insert search text", "alert alert-danger");
                 redirect("pages/index");
             }
-
-            $data=$this->db->query("SELECT * FROM user_type WHERE type LIKE '%$search_text%'");
             
+            $data=$this->db->query("SELECT * 
+                                    FROM users
+                                    INNER JOIN parents ON users.parent_id =parents.id
+                                    INNER JOIN user_type ON users.user_type_id =user_type.id
+                                    WHERE  type LIKE '%$search_text%' 
+                                    OR parent LIKE '%$search_select%'
+                                ");
+
             $data=$this->db->execute();
             
             // Check row
             if($this->db->rowCount() > 0){
-                if($data= $this->db->resultset()){
+                if($data= $this->db->single()){
                     return $data;
                 }
-                
-            } else {
+            }else {
                 flash("search_fail","Your search does not match any data", "alert alert-danger");
             }
-            
         }
 
     }
 
 
     public function countResultType($type){
+        
+        if(isset($_GET['submit'])){
+          
+            // Sanitize POST data
+            //$_GET = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $this->db->query("SELECT users.user_type_id, count(*) AS 'total'
+                                    FROM users
+                                    JOIN user_type ON users.user_type_id=user_type.id
+                                    WHERE user_type.type = '{$type}'
+                            ");
+
+            $data=$this->db->execute();
+            $data=$this->db->single();
+            return $data;
+            
+        }
+
+    }
+
+    public function countResultParent($search_select){
 
         if(isset($_GET['submit'])){
           
             // Sanitize POST data
-            $_GET = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            $this->db->query("SELECT users.user_type_id, count(*) AS 'total'
-                                    FROM users
-                                    JOIN user_type
-                                    ON users.user_type_id=user_type.id
-                                    WHERE user_type.type = '{$type}'
-                                    ");
+            //$_GET = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+           
+           
+            $this->db->query("SELECT users.parent_id, count(*) AS 'total_parent'
+                                FROM users
+                                JOIN parents ON users.parent_id=parents.id
+                                WHERE parents.parent = '{$search_select}'
+                            ");
 
             $data=$this->db->execute();
             $data=$this->db->single();

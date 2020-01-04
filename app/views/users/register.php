@@ -26,14 +26,24 @@
             <span class="invalid-feedback"><?php echo $data['confirm_password_err']; ?></span>
           </div>
           <div class="form-group">
-            <label for="user_type">Select User Type: <sup>*</sup></label>
-            <select name ="user_type" id="user_type" class="form-control" value="<?php echo $data['user_type']; ?>">
+            <label for="parent_id">Select User Type: <sup>*</sup></label>
+            <select name ="parent_id" id="parent_id" class="form-control" value="<?php echo $data['parent_id']; ?>">
+            
+                <?php foreach($this->userModel->getUserParent() as $parent) :?>
+                  <option value='<?php echo $parent->id;?>'><?php echo $parent->parent;?></option>
+               <?php endforeach ;?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="user_type_id">Select User sub type: <sup>*</sup></label>
+            <select name ="user_type_id" id="user_type_id" class="form-control" value="<?php echo $data['user_type_id']; ?>">
             
                 <?php foreach($this->userModel->getUserType() as $user) :?>
                   <option value='<?php echo $user->id;?>'><?php echo $user->type;?></option>
                <?php endforeach ;?>
             </select>
           </div>
+          
           <div class="row">
             <div class="col">
               <input type="submit" value="Register" class="btn btn-success btn-block">

@@ -9,6 +9,7 @@
       $users = $this->userModel->getUserType();
       $data = [
         'title' => 'Welcome',
+        'text'=> 'Please register or login...',
         'users'=> $users
       ];
      
@@ -30,13 +31,18 @@
 
       $results = $this->userModel->getResultsType();
      
+      
       $search_text=$_GET['search_text'];
+      $search_select=$_GET['search_select'];
+
       $count= $this->userModel->countResultType($search_text);
+      $countParent= $this->userModel->countResultParent($search_select);
       
       $data=[
         "results"=> $results,
         "count"=>$count,
-        "title"=>$search_text
+        "title"=>$search_text,
+        "countParent"=>$countParent
       ];
       $this->view('pages/results', $data);
     }
