@@ -22,13 +22,13 @@ class User {
 
     public function register($data){
 
-        $this->db->query('INSERT INTO users ( name, email, password, user_type) VALUES (:name,:email,:password,:user_type)');
+        $this->db->query('INSERT INTO users ( name, email, password, user_type_id) VALUES (:name,:email,:password,:user_type_id)');
         //Bind values
         
         $this->db->bind(':name',$data['name']);
         $this->db->bind(':email',$data['email']);
         $this->db->bind(':password',$data['password']);
-        $this->db->bind(':user_type',$data['user_type']);
+        $this->db->bind(':user_type_id',$data['user_type']);
 
         //excecute
         if($this->db->execute()){
@@ -77,7 +77,7 @@ class User {
 
 
     // Get results from search form
-    public function getResults(){
+    public function getResultsType(){
 
         if(isset($_GET['submit'])){
           
@@ -87,8 +87,9 @@ class User {
             $search_text=trim($_GET['search_text']);
             $select=trim($_GET['search_select']);
 
-            if($select == "" || ($select !="type" && $select !="sub_type")){
-                $select= "type";
+            if(empty($select)){
+                flash("search_select","Please select type", "alert alert-danger");
+                redirect("pages/index");
             }
                 
             if(empty($search_text)){
@@ -96,7 +97,7 @@ class User {
                 redirect("pages/index");
             }
 
-            $data=$this->db->query("SELECT * FROM user_type WHERE type LIKE '%$search_text%' OR sub_type  LIKE '%$search_text%'");
+            $data=$this->db->query("SELECT * FROM user_type WHERE type LIKE '%$search_text%'");
             
             $data=$this->db->execute();
             
@@ -115,18 +116,18 @@ class User {
     }
 
 
-    public function countResult($sub_type){
+    public function countResultType($type){
 
         if(isset($_GET['submit'])){
           
             // Sanitize POST data
-            //$_GET = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $_GET = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            $this->db->query("SELECT users.user_type, count(*) AS 'total'
+            $this->db->query("SELECT users.user_type_id, count(*) AS 'total'
                                     FROM users
                                     JOIN user_type
-                                    ON users.user_type=user_type.id
-                                    WHERE user_type.sub_type = '{$sub_type}'
+                                    ON users.user_type_id=user_type.id
+                                    WHERE user_type.type = '{$type}'
                                     ");
 
             $data=$this->db->execute();

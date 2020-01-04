@@ -17,11 +17,12 @@
             <input type="text" name="search_text" class="form-control form-control-lg">
           </div>
           <div class="form-group mb-5">
+          <?php flash('search_select'); ?>
             <label for="search_select">Search by user Type:</label>
             <select name ="search_select" id="search_select" class="form-control">
             <option value=''>Select User type:</option>
-              <option value='type'>Type</option>
-              <option value='sub_type'>Sub Type</option>
+              <option value='frontend'>Front End Developer</option>
+              <option value='backend'>Back End Developer</option>
             </select>
           </div>
           <div class="row">

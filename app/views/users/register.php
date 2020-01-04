@@ -30,7 +30,7 @@
             <select name ="user_type" id="user_type" class="form-control" value="<?php echo $data['user_type']; ?>">
             
                 <?php foreach($this->userModel->getUserType() as $user) :?>
-                  <option value='<?php echo $user->id;?>'><?php echo $user->type;?>/<?php echo $user->sub_type;?></option>
+                  <option value='<?php echo $user->id;?>'><?php echo $user->type;?></option>
                <?php endforeach ;?>
             </select>
           </div>

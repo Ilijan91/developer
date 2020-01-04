@@ -28,14 +28,15 @@
 
     public function results(){
 
-      $results = $this->userModel->getResults();
-      //print_r($results);
-      
-      $count= $this->userModel->countResult(($_GET['search_text']));
+      $results = $this->userModel->getResultsType();
+     
+      $search_text=$_GET['search_text'];
+      $count= $this->userModel->countResultType($search_text);
       
       $data=[
         "results"=> $results,
-        "count"=>$count
+        "count"=>$count,
+        "title"=>$search_text
       ];
       $this->view('pages/results', $data);
     }
