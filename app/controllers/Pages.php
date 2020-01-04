@@ -19,7 +19,7 @@
       //Set Data
       $data = [
         'version' => '1.0.0',
-        'description' =>'This is application that can search for users by user type...'
+        'description' =>'This is application that can search for users by user type, and users can create edit and delete posts.'
       ];
 
       // Load about view
