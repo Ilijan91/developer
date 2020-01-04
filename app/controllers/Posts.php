@@ -151,4 +151,22 @@ public function add(){
         }
       }
 
+
+
+       // Delete Post
+    public function delete($id){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+          //Execute
+          if($this->postModel->deletePost($id)){
+            // Redirect to login
+            flash('post_message', 'Post Removed');
+            redirect('posts');
+            } else {
+              die('Something went wrong');
+            }
+        } else {
+          redirect('posts');
+        }
+      }
+
 }
