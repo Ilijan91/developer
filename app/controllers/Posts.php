@@ -41,7 +41,30 @@ public function add(){
         'body_err' => ''
       ];
 
-      
+      // Validate email
+      if(empty($data['title'])){
+        $data['title_err'] = 'Please enter name';
+        // Validate name
+        if(empty($data['body'])){
+          $data['body_err'] = 'Please enter the post body';
+        }
+      }
+
+      // Make sure there are no errors
+      if(empty($data['title_err']) && empty($data['body_err'])){
+        // Validation passed
+        //Execute
+        if($this->postModel->addPost($data)){
+          // Redirect to login
+          flash('post_added', 'Post Added');
+          redirect('posts');
+        } else {
+          die('Something went wrong');
+        }
+      } else {
+        // Load view with errors
+        $this->view('posts/add', $data);
+      }
 
       
 
