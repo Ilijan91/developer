@@ -5,16 +5,21 @@
     <h1 class="display-3"><?php echo $data['title']; ?></h1>
     
     <?php if(!isset($_SESSION['user_id'])){ 
-          echo $data['text'];
-          } else{
-            echo $_SESSION['user_name']; 
-          }
-     ?>
+          echo $data['text']; ?>
+          <div class="col">
+            <a href="<?php echo URLROOT; ?>/users/register" class="btn btn-success btn-primary">Register</a>
+            <a href="<?php echo URLROOT; ?>/users/login" class="btn btn-primary btn-primary">Login</a>
+          </div>
+          <?php
+            } else{
+              echo $_SESSION['user_name']; 
+            }
+          ?>
     </div>
   </div> 
   <?php if(isset($_SESSION['user_id'])){ ?>
     <?php flash('search_none'); ?>
-        <form action="<?php echo URLROOT; ?>/pages/results" method="get">
+        <form action="<?php echo URLROOT; ?>/pages/results" method="POST">
           <div class="form-group">
             <label for="search_text">Search for user type:</label>
             <input type="text" name="search_text" class="form-control form-control-lg">

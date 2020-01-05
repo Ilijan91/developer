@@ -32,9 +32,10 @@
       $results = $this->userModel->getResultsType();
      
       
-      $search_text=$_GET['search_text'];
-      $search_select=$_GET['search_select'];
+      $search_text=$_POST['search_text'];
+      $search_select=$_POST['search_select'];
 
+      $users= $this->userModel->getUsers($search_text , $search_select);
       $count= $this->userModel->countResultType($search_text);
       $countParent= $this->userModel->countResultParent($search_select);
       
@@ -42,7 +43,9 @@
         "results"=> $results,
         "count"=>$count,
         "title"=>$search_text,
-        "countParent"=>$countParent
+        "select"=>$search_select,
+        "countParent"=>$countParent,
+        "users"=>$users
       ];
       $this->view('pages/results', $data);
     }
