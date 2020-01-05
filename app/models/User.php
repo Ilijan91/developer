@@ -39,7 +39,7 @@ class User {
         
         $this->db->bind(':search_text',$search_text);
         $this->db->bind(':search_select',$search_select);
-
+        
         $row = $this->db->resultset();
   
         return $row;

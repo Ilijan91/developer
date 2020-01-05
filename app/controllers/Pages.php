@@ -29,12 +29,10 @@
 
     public function results(){
 
-      $results = $this->userModel->getResultsType();
-     
-      
       $search_text=$_POST['search_text'];
       $search_select=$_POST['search_select'];
 
+      $results = $this->userModel->getResultsType();
       $users= $this->userModel->getUsers($search_text , $search_select);
       $count= $this->userModel->countResultType($search_text);
       $countParent= $this->userModel->countResultParent($search_select);
